@@ -1,8 +1,8 @@
-# Laravel/Lumen Docker Scaffold
+# Billie Project
 
 ### **Description**
 
-This will create a dockerized stack for a Laravel/Lumen application, consisted of the following containers:
+This will create a dockerized stack for a Laravel application, consisted of the following containers:
 -  **app**, your PHP application container
 
         Nginx, PHP7.4 PHP7.4-fpm, Composer, NPM, Node.js v10.x
@@ -48,22 +48,13 @@ This will create a dockerized stack for a Laravel/Lumen application, consisted o
 
     This will download/build all the required images and start the stack containers. It usually takes a bit of time, so grab a cup of coffee.
 
-4. After the whole stack is up, enter the app container and install the framework of your choice:
+4. After the whole stack is up, enter the app container and install the Laravel framework:
 
     **Laravel**
 
     ```
-    $ docker exec -it app bash
-    $ composer create-project --prefer-dist laravel/laravel .
-    $ nano .env
-    $ php artisan migrate --seed
-    ```
-
-    **Lumen**
-
-    ```
-    $ docker exec -it app bash
-    $ composer create-project --prefer-dist laravel/lumen .
+    $ docker exec -it applaravel bash
+    $ composer install
     $ nano .env
     $ php artisan migrate --seed
     ```

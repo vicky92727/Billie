@@ -14,7 +14,7 @@ class CreateInvoiceItemsTable extends Migration
     public function up()
     {
         Schema::create('invoice_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('title', 191);
             $table->text('detail');
             $table->boolean('status');
@@ -22,9 +22,12 @@ class CreateInvoiceItemsTable extends Migration
             $table->float('item_cost');
             $table->integer('item_qty');
             $table->float('item_total');
-            $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->timestamps();
         });
+
+        Schema::table('invoice_items', function($table) {
+            $table->foreign('invoice_id')->references('id')->on('invoices');
+       });
     }
 
     /**

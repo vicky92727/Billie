@@ -14,7 +14,7 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('title', 191);
             $table->text('detail');
             $table->integer('company_id')->unsigned();
@@ -24,9 +24,12 @@ class CreateInvoicesTable extends Migration
             $table->date('invoice_date');
             $table->date('invoice_due_date');
             $table->float('invoice_total');
-            $table->foreign('company_id')->references('id')->on('companies');
             $table->timestamps();
         });
+
+        Schema::table('invoices', function($table) {
+            $table->foreign('company_id')->references('id')->on('companies');
+       });
     }
 
     /**

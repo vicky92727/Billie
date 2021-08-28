@@ -22,9 +22,9 @@ Route::post('register', 'App\Http\Controllers\AuthController@register');
 
 Route::post('login', 'App\Http\Controllers\AuthController@login');
 
-Route::apiResource('companies', 'CompanyController');
+//Route::apiResource('companies', 'CompanyController');
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('companies/{company}', 'App\Http\Controllers\CompanyController@show');
     Route::post('companies', 'App\Http\Controllers\CompanyController@store');
 });

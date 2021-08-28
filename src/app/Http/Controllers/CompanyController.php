@@ -6,7 +6,7 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyResource;
 use App\Repository\CompanyRepositoryInterface;
-
+use App\Http\Requests\CompanyRequest;
 class CompanyController extends Controller
 {
 
@@ -33,7 +33,7 @@ class CompanyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
       $company = $this->companyRepository->saveRecord($request);
 

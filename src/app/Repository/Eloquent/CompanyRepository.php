@@ -38,4 +38,11 @@ class CompanyRepository extends BaseRepository implements CompanyRepositoryInter
         $company = $this->create($postData);
         return $company;
     }
+
+
+    public function getDebtorLimit($id)
+    {
+       $rec =  $this->model->where('id', $id)->first();
+       return $rec->debtor_limit;
+    }
 }

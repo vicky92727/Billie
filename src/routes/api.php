@@ -28,4 +28,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('companies/{company}', 'App\Http\Controllers\CompanyController@show');
     Route::post('companies', 'App\Http\Controllers\CompanyController@store');
     Route::post('invoices', 'App\Http\Controllers\InvoiceController@store');
+    Route::put('invoices/{invoice_number}', 'App\Http\Controllers\InvoiceController@update');
 });

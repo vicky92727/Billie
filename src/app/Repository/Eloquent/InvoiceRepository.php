@@ -20,6 +20,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
     public function __construct(Invoice $model)
     {
         $this->model = $model;
+       
     }
 
     /**
@@ -28,6 +29,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
      */
     public function saveRecord($request)
     {
+
         $userData = $request->only([
             'title', 
             'detail', 
@@ -39,6 +41,7 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
             'invoice_due_date',
             'invoice_total'
         ]);
+
         $postData['title'] = ucwords($userData['title']);
         $postData['detail'] = $userData['detail'];
         $postData['company_id'] = $userData['company_id'];
@@ -50,5 +53,45 @@ class InvoiceRepository extends BaseRepository implements InvoiceRepositoryInter
         $postData['invoice_total'] = $userData['invoice_total'];
         $invoice = $this->create($postData);
         return $invoice;
+    }
+
+    public function getOpenInvoices($id)
+    {
+        $openInvoices = $this->model->where(['status' => 1, 'company_id' => $id])->get();
+        return $openInvoices->count();
+    }
+
+    /**
+     * @param $request
+     * @param $user
+     * @return mixed
+     */
+    public function updateRecord($request, $id)
+    {
+        $data = $request->all();
+
+        if($request->has('status')) {
+            $data['status'] = $data['status'];
+        }
+        $invoice = $this->update($id, $data);
+        if($invoice){
+            $invoice = $this->findById($id);
+        }
+        return $invoice;
+    }
+
+    /**
+     * @param $id
+     * @param $user
+     * @return mixed
+     */
+    public function getInvoiceByNumber($invoice_number)
+    {
+       $rec =  $this->model->where('invoice_number', $invoice_number)->first();
+       if($rec!=null){
+            return $rec->id;
+       } else {
+        return false;
+       }
     }
 }

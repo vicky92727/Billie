@@ -6,15 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\InvoiceRequest;
 use App\Repository\InvoiceRepositoryInterface;
 use App\Http\Resources\InvoiceResource;
-
+use App\Repository\Eloquent\CompanyRepository;
 class InvoiceController extends Controller
 {
 
     private $invoiceRepository;
     
-    public function __construct(InvoiceRepositoryInterface $invoiceRepository)
+    protected $_companyrepo;
+
+    public function __construct(InvoiceRepositoryInterface $invoiceRepository, CompanyRepository $_companyrepo)
     {
         $this->invoiceRepository = $invoiceRepository;
+         $this->_companyrepo = $_companyrepo;
     }
 
     /**
@@ -35,9 +38,15 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceRequest $request)
     {
-        $invoice = $this->invoiceRepository->saveRecord($request);
-
-        return new InvoiceResource($invoice);
+        $debtor_limit = $this->_companyrepo->getDebtorLimit($request->company_id);
+        $open_invoices = $this->invoiceRepository->getOpenInvoices($request->company_id);
+        if($open_invoices < $debtor_limit) {
+            $invoice = $this->invoiceRepository->saveRecord($request);
+            return new InvoiceResource($invoice);
+        } else {
+            return response()->json(['Error' => 'Debtor Limit has been exceeded']);
+        }
+        
     }
 
     /**
@@ -58,9 +67,16 @@ class InvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $invoice_number)
     {
-        //
+        $id = $this->invoiceRepository->getInvoiceByNumber($invoice_number);
+        if($id) {
+            $invoice = $this->invoiceRepository->updateRecord($request, $id);
+            return new InvoiceResource($invoice);
+        } else {
+            return response()->json(['Error' => 'No Invoice Found']);
+        }
+        
     }
 
     /**

@@ -1,0 +1,7 @@
+Next steps : 
+1- We can write functionality to store debtors as separate entity for reporting purpose.
+2- We can also save invoice items separately with their quantity and prices.
+3- We can also write functionality for payment of invoices so that debtor can pay easily.
+4- When debtor make payment an Invoice should mark as paid automatically if payment is done through payment gateway otherwise concerned person will mark invoice as paid.
+
+5- we can check credit rating from invoices and creditor history. 

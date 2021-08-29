@@ -52,4 +52,11 @@ class User extends Authenticatable implements JWTSubject
     {
       return [];
     }
+
+    public function test_models_can_be_instantiated()
+    {
+        $user = User::factory()->make();
+
+        // Use model in tests...
+    }
 }

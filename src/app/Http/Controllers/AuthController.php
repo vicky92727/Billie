@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repository\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthRequest;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function register(Request $request)
+    public function register(AuthRequest $request)
     {
       $user = $this->userRepository->saveRecord($request);
 
@@ -23,7 +24,7 @@ class AuthController extends Controller
       return $this->respondWithToken($token);
     }
     
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
       $credentials = $request->only(['email', 'password']);
 

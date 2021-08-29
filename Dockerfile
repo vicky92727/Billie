@@ -61,6 +61,8 @@ RUN apt-get install -y nginx
 ADD resources/default /etc/nginx/sites-enabled/
 ADD resources/nginx.conf /etc/nginx/
 
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
 #------------- Composer & laravel configuration ----------------------------------------------------
 
 # Install composer
